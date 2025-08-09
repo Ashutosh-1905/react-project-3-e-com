@@ -1,79 +1,78 @@
-import React, { useEffect, useState } from 'react'
-import api from '../services/api';
-import { useParams } from 'react-router';
+import { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import api from "../services/api";
 
-const Product = () => {
-    const [product, setProduct] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const {id}  = useParams();
+export default function Product() {
+  const { id } = useParams();
+  const [product, setProduct] = useState(null);
+  const [loading, setLoading] = useState(true);
 
-const addToCart = () => {
-  const cart = JSON.parse(localStorage.getItem("cart")) || [];
-  cart.push(product);
-  localStorage.setItem("cart", JSON.stringify(cart));
-  alert("Product added to cart!");
-};
+  // ✅ Fetch product details
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        const res = await api.get(`/products/${id}`);
+        setProduct(res.data);
+      } catch {
+        setProduct(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchProduct();
+  }, [id]);
 
-    useEffect(() => {
-        const fetchProduct = async () => {
-            try {
+  // ✅ Loader
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center h-screen">
+        <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600"></div>
+      </div>
+    );
+  }
 
-                const response = await api.get(`/products/${id}`);
-                setProduct(response.data)
-            } catch {
-                setProduct(null);
-            } finally {
-                setLoading(false);
-            }
-        };
+  // ✅ Error / Not Found
+  if (!product) {
+    return (
+      <div className="flex justify-center items-center h-screen text-red-500 text-lg">
+        Product not found or an error occurred.
+      </div>
+    );
+  }
 
-        fetchProduct();
-    }, [id]);
+  // ✅ Add to cart function
+  const addToCart = () => {
+    const cart = JSON.parse(localStorage.getItem("cart")) || [];
+    cart.push(product);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    alert("✅ Product added to cart!");
+  };
 
-   if (loading) {
-     return (
-       <div className="flex justify-center items-center h-screen">
-         <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-blue-600"></div>
-       </div>
-     );
-   }
+  // ✅ UI
+  return (
+    <div className="bg-white p-6 rounded-lg shadow max-w-4xl mx-auto">
+      <div className="flex flex-col md:flex-row gap-6">
+        <img
+          src={product?.image}
+          alt={product?.title || "No title"}
+          className="w-full md:w-1/3 h-80 object-contain"
+        />
+        <div className="flex-1">
+          <h1 className="text-2xl font-bold">{product?.title}</h1>
+          <p className="text-gray-600 mt-1">{product?.category}</p>
+          <div className="text-2xl font-semibold text-green-600 mt-4">
+            ${product?.price}
+          </div>
+          <p className="mt-4 text-gray-700">{product?.description}</p>
 
-    if (!product) {
-      return (
-        <div className="flex justify-center items-center h-screen text-red-500 text-lg">
-          Product not found or an error occurred.
+          <button
+            onClick={addToCart}
+            className="mt-6 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded transition"
+          >
+            Add to cart
+          </button>
         </div>
-      );
-    }
-
-
- return (
-   <div className="bg-white p-6 rounded-lg shadow max-w-4xl mx-auto">
-     <div className="flex flex-col md:flex-row gap-6">
-       <img
-         src={product?.image}
-         alt={product?.title || "No title"}
-         className="w-full md:w-1/3 h-80 object-contain"
-       />
-       <div className="flex-1">
-         <h1 className="text-2xl font-bold">{product?.title}</h1>
-         <p className="text-gray-600 mt-1">{product?.category}</p>
-         <div className="text-2xl font-semibold text-green-600 mt-4">
-           ${product.price}
-         </div>
-         <p className="mt-4 text-gray-700">{product.description}</p>
-
-         <button
-           onClick={() => {
-             addToCart()
-           }}
-           className="mt-6 cursor-pointer bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">
-           Add to cart
-         </button>
-       </div>
-     </div>
-   </div>
- );
+      </div>
+    </div>
+  );
 }
-
-export default Product
