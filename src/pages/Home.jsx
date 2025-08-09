@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import api from "../services/api";
+import { NavLink } from "react-router";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -37,18 +38,19 @@ const Home = () => {
           className="bg-white p-4 rounded-lg shadow hover:shadow-lg transition flex flex-col w-64 h-[350px]"
         >
           {/* Image container */}
-          <div className="flex items-center justify-center h-48">
-            <img
-              src={product.image}
-              alt={product.title}
-              className="max-h-full max-w-full object-contain"
-            />
-          </div>
-
-          {/* Product Title */}
-          <h3 className="mt-3 text-sm font-semibold text-gray-900 line-clamp-2 h-[40px]">
+          <NavLink to={`/product/${product.id}`}>
+            <div className="flex items-center justify-center h-48">
+              <img
+                src={product.image}
+                alt={product.title}
+                className="max-h-full max-w-full object-contain"
+              />
+            </div>
+            {/* Product Title */}
+            <h3 className="mt-3 text-sm font-semibold text-gray-900 line-clamp-2 h-[40px]">
             {product.title}
-          </h3>
+            </h3>
+            </NavLink>
 
           {/* Price at bottom */}
           <p className="mt-auto text-green-600 font-bold">${product.price}</p>
