@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import api from "../services/api";
-import { NavLink } from "react-router";
+import { Link } from "react-router";
 
 const Home = () => {
   const [products, setProducts] = useState([]);
@@ -37,8 +37,8 @@ const Home = () => {
           key={product.id}
           className="bg-white p-4 rounded-lg shadow hover:shadow-lg transition flex flex-col w-64 h-[350px]"
         >
-          {/* Image container */}
-          <NavLink to={`/product/${product.id}`}>
+          {/* Product Image - Links to Details */}
+          <Link to={`/products/${product.id}`} className="block">
             <div className="flex items-center justify-center h-48">
               <img
                 src={product.image}
@@ -46,14 +46,35 @@ const Home = () => {
                 className="max-h-full max-w-full object-contain"
               />
             </div>
-            {/* Product Title */}
             <h3 className="mt-3 text-sm font-semibold text-gray-900 line-clamp-2 h-[40px]">
-            {product.title}
+              {product.title}
             </h3>
-            </NavLink>
+          </Link>
 
-          {/* Price at bottom */}
-          <p className="mt-auto text-green-600 font-bold">${product.price}</p>
+          {/* Price and Add to Cart */}
+          <div className="mt-auto flex justify-between items-center">
+            <span className="font-bold">${product.price}</span>
+            <button
+              onClick={() => {
+                const cart = JSON.parse(localStorage.getItem("cart")) || [];
+                const existingItem = cart.find(
+                  (item) => item.id === product.id
+                );
+
+                if (existingItem) {
+                  existingItem.quantity += 1;
+                } else {
+                  cart.push({ ...product, quantity: 1 });
+                }
+
+                localStorage.setItem("cart", JSON.stringify(cart));
+                alert(`${product.title} added to cart!`);
+              }}
+              className="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded"
+            >
+              Add to Cart
+            </button>
+          </div>
         </div>
       ))}
     </div>
