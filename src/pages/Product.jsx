@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams } from "react-router";
 import api from "../services/api";
 
-export default function Product() {
+const Product = ()=> {
   const { id } = useParams();
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -76,3 +76,6 @@ export default function Product() {
     </div>
   );
 }
+
+
+export default Product
