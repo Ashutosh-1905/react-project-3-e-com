@@ -1,33 +1,46 @@
-import React from 'react'
+import React from "react";
+import { NavLink } from "react-router";
 
 const Navbar = () => {
   return (
-    <nav className="w-[15%] h-full bg-zinc-100 flex flex-col items-center p-10  pt-5">
-      <a
-        className="py-3 px-5 border rounded border-blue-100 text-blue-300 bg-zinc-50"
-        href="/create"
+    <nav className="w-[15%] min-h-screen bg-zinc-100 flex flex-col items-center p-5">
+      {/* Add Product Button */}
+      <NavLink
+        to="/create"
+        className="w-full text-center py-2 px-4 mb-4 border rounded border-blue-200 text-blue-500 bg-white shadow hover:bg-blue-50 transition"
       >
         Add New Product
-      </a>
+      </NavLink>
 
-      <hr className="w-[80%] my-3" />
-      <h1 className="text-2xl mb-3 w-[80%] ">Category Filter</h1>
-      <ul className="w-[80%] p-3 rounded-lg">
-        <li className="flex items-center mb-3">
-          <span className="rounded-full inline-block w-[15px] h-[15px] bg-blue-100 mr-2"></span>{" "}
-          Cart-1
+      <hr className="w-full my-2" />
+
+      {/* Navigation Links */}
+      <NavLink to="/" className="text-xl font-bold mb-3">
+        MyStore
+      </NavLink>
+      <NavLink to="/" className="hover:underline mb-2">
+        Home
+      </NavLink>
+      <NavLink to="/cart" className="hover:underline mb-4">
+        Cart
+      </NavLink>
+
+      {/* Category Filter */}
+      <h1 className="text-lg font-semibold mb-3 w-[80%]">Category Filter</h1>
+      <ul className="w-[80%] p-3 rounded-lg bg-white shadow-sm">
+        <li className="flex items-center mb-3 cursor-pointer hover:opacity-80">
+          <span className="rounded-full w-4 h-4 bg-blue-300 mr-2"></span> Cart-1
         </li>
-        <li className="flex items-center mb-3">
-          <span className="rounded-full inline-block w-[15px] h-[15px] bg-red-100 mr-2"></span>{" "}
-          Cart-2
+        <li className="flex items-center mb-3 cursor-pointer hover:opacity-80">
+          <span className="rounded-full w-4 h-4 bg-red-300 mr-2"></span> Cart-2
         </li>
-        <li className="flex items-center mb-3">
-          <span className="rounded-full inline-block w-[15px] h-[15px] bg-green-100 mr-2"></span>{" "}
+        <li className="flex items-center cursor-pointer hover:opacity-80">
+          <span className="rounded-full w-4 h-4 bg-green-300 mr-2"></span>{" "}
           Cart-3
         </li>
       </ul>
     </nav>
   );
-}
+};
 
 export default Navbar;

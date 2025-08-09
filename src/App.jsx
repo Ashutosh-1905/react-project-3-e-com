@@ -6,10 +6,11 @@ import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Product from "./pages/Product";
 import NotFound from "./pages/NotFound";
+import Cart from "./pages/Cart";
 
 const App = () => {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-gray-50 flex">
       <Navbar />
       <main className="container mx-auto p-4">
         <Routes>
