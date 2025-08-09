@@ -1,6 +1,6 @@
 import React from 'react'
 
-const Nav = () => {
+const Navbar = () => {
   return (
     <nav className="w-[15%] h-full bg-zinc-100 flex flex-col items-center p-10  pt-5">
       <a
@@ -30,4 +30,4 @@ const Nav = () => {
   );
 }
 
-export default Nav
+export default Navbar;
